@@ -24,8 +24,6 @@ public class LiquibaseApplication {
 		SpringApplication.run(LiquibaseApplication.class, args);
 	}
 
-
-
 	@Bean
 	@DependsOnDatabaseInitialization
 	ApplicationRunner runner(JdbcTemplate jdbcTemplate) {
@@ -42,8 +40,6 @@ public class LiquibaseApplication {
 			new HashSet<>(articles).forEach(System.out::println);
 		};
 	}
-
-
 }
 
 record Article(Long id, String title, String author, List<Comments> comments){}
@@ -52,14 +48,11 @@ record Comments(Long id, String comment){}
 
 class ArticleRowMapper implements RowMapper<Article> {
 
-	private Map<Long, Article> articles = new ConcurrentHashMap<>();
-
 	@Override
 	public Article mapRow(ResultSet rs, int rowNum) throws SQLException {
 
 		var title = rs.getString("title");
 		var id = rs.getLong("id");
-//		articles.put(id, );
 		return new Article(id, title, "", null);
 	}
 }
